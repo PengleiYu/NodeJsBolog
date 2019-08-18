@@ -2,21 +2,22 @@ const http = require('http')
 const queryString = require('querystring')
 
 const server = http.createServer(function (req, res) {
+    const method = req.method;
     const url = req.url;
-    console.log('url=', url);
-    if (req.method === 'GET') {
-        req.query = queryString.parse(url.split('?')[1]);
-        res.end(JSON.stringify(req.query));
-    } else if (req.method === 'POST') {
-        console.log('content-type', req.headers['content-type'])
-        let postData = '';
+    const path = url.split('?')[0];
+    const query = queryString.parse(url.split('?')[1]);
+    const resData = { method, url, path, query }
+
+    if (method === 'GET') {
+        res.end(JSON.stringify(resData));
+    } else if (method === 'POST') {
+        let postData = ''
         req.on('data', chunk => {
-            postData += chunk.toString()
-        });
+            postData += chunk.toString();
+        })
         req.on('end', () => {
-            console.log(postData)
-            res.end('Hello world')
-            console.log('')
+            resData.postData = postData;
+            res.end(JSON.stringify(resData))
         })
     }
 })
