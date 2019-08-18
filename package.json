@@ -1,0 +1,20 @@
+{
+  "name": "nodeJsBolog",
+  "version": "1.0.0",
+  "description": "学习nodejs打造简单的blog",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomDoge/NodeJsBolog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TomDoge/NodeJsBolog/issues"
+  },
+  "homepage": "https://github.com/TomDoge/NodeJsBolog#readme"
+}
