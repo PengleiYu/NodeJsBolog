@@ -1,5 +1,5 @@
 {
-  "name": "nodeJsBolog",
+  "name": "nodejs_bolog",
   "version": "1.0.0",
   "description": "学习nodejs打造简单的blog",
   "main": "bin/www.js",
