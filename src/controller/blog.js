@@ -24,4 +24,14 @@ const getDetail = (id) => {
         author: 'zhangsan'
     }
 }
-module.exports = { getList, getDetail }
+const newBlog = (blogData = {}) => {
+    console.log(blogData)
+    return {
+        id: 3
+    }
+}
+const updateBlog = (id, blogData = {}) => {
+    console.log('update blog ', id, blogData)
+    return true;
+}
+module.exports = { getList, getDetail, newBlog, updateBlog }
