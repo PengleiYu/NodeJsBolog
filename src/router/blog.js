@@ -33,7 +33,7 @@ const handleBlogRouter = async (req, res) => {
         }
         // blog更新
         if (req.path === '/api/blog/update') {
-            const result = updateBlog(id, req.body)
+            const result = await updateBlog(id, req.body)
             if (result) {
                 return new SuccessModel()
             } else {
@@ -43,7 +43,8 @@ const handleBlogRouter = async (req, res) => {
         }
         // blog删除
         if (req.path === '/api/blog/del') {
-            const result = delBlog(id, req.body)
+            const author = 'zhangsan'
+            const result = await delBlog(id, author)
             if (result) {
                 return new SuccessModel()
             } else {

@@ -27,16 +27,19 @@ const newBlog = async (blogData = {}) => {
     return {
         id: insertData.insertId
     }
-
-    return {
-        id: 3
-    }
 }
-const updateBlog = (id, blogData = {}) => {
-    console.log('update blog ', id, blogData)
-    return true;
+const updateBlog = async (id, blogData = {}) => {
+    let sql = `update blogs set title='${blogData['title']}', content='${blogData['content']}' where id=${id}`
+    const okPack = await exec(sql)
+    console.log(okPack)
+    if (okPack.affectedRows > 0) return true
+    else return false
 }
-const delBlog = (id) => {
-    return true;
+const delBlog = async (id, author) => {
+    let sql = `delete from blogs where id='${id}' and author='${author}'`
+    const okPack = await exec(sql)
+    console.log(okPack)
+    if (okPack.affectedRows > 0) return true
+    else return false
 }
 module.exports = { getList, getDetail, newBlog, updateBlog, delBlog }
