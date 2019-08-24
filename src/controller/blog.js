@@ -10,17 +10,24 @@ const getList = (author, keyword) => {
     sql += `order by createtime desc; `
     return exec(sql)
 }
-const getDetail = (id) => {
-    return {
-        id: 1,
-        title: 'Title A',
-        content: 'Content A',
-        createTime: 1566230195249,
-        author: 'zhangsan'
-    }
+const getDetail = async (id) => {
+    let sql = `select * from blogs where id = ${id}`
+    const list = await exec(sql)
+    return list[0]
 }
-const newBlog = (blogData = {}) => {
-    console.log(blogData)
+const newBlog = async (blogData = {}) => {
+    const title = blogData['title']
+    const content = blogData['content']
+    const author = blogData['author']
+    const create_time = Date.now()
+    let sql = `insert into blogs (title, content, createtime, author) 
+    values('${title}', '${content}', '${create_time}', '${author}')`
+    const insertData = await exec(sql)
+    // console.log(insertData)
+    return {
+        id: insertData.insertId
+    }
+
     return {
         id: 3
     }

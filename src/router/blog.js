@@ -17,7 +17,7 @@ const handleBlogRouter = async (req, res) => {
         }
         // blog详情
         if (req.path === '/api/blog/detail') {
-            const detail = getDetail(id)
+            const detail = await getDetail(id)
             return new SuccessModel(detail)
             // return { msg: '这里是博客详情接口' }
         }
@@ -25,7 +25,9 @@ const handleBlogRouter = async (req, res) => {
     if (method === 'POST') {
         // blog新建
         if (req.path === '/api/blog/new') {
-            const data = newBlog(req.body)
+            const author = 'zhangsan'
+            req.body.author = author
+            const data = await newBlog(req.body)
             return new SuccessModel(data)
             // return { msg: '这里是新建博客接口' }
         }
