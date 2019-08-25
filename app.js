@@ -46,7 +46,7 @@ const serverHandle = async (req, res) => {
     }
 
     // 处理user路由
-    const userData = handleUserRouter(req, res)
+    const userData = await handleUserRouter(req, res)
     if (userData) {
         res.end(JSON.stringify(userData))
         return
