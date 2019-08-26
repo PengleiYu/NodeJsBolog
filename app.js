@@ -35,6 +35,17 @@ const serverHandle = async (req, res) => {
     // 解析path、query
     req.path = url.split('?')[0]
     req.query = queryString.parse(url.split('?')[1])
+    req.cookie = {}
+    const cookieStr = req.headers.cookie || ''
+    cookieStr.split('; ').forEach(element => {
+        if (!element || element === '') return
+        const arr = element.split('=')
+        const key = arr[0]
+        const value = arr[1]
+        req.cookie[key] = value
+    });
+    console.log(req.cookie)
+
 
     const postData = await getPostData(req)
     req.body = postData
