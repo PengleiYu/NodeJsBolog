@@ -1,5 +1,12 @@
 const { login } = require('../controller/user')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+
+const getCookieExpires = () => {
+    const d = new Date()
+    d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
+    console.log('date =', d.toGMTString())
+    return d.toGMTString()
+}
 const handleUserRouter = async (req, res) => {
     const method = req.method
     if (method === 'GET') {
@@ -9,7 +16,7 @@ const handleUserRouter = async (req, res) => {
             const { username, password } = req.query;
             const result = await login(username, password)
             if (result.username) {
-                res.setHeader('Set-Cookie', `username=${result.username}; path=/`)
+                res.setHeader('Set-Cookie', `username=${result.username}; path=/; httpOnly; expires=${getCookieExpires()}`)
                 return new SuccessModel()
             } else {
                 return new ErrorModel('登录失败')
