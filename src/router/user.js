@@ -1,13 +1,7 @@
 const { login } = require('../controller/user')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 
-const getCookieExpires = () => {
-    const d = new Date()
-    d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
-    console.log('date =', d.toGMTString())
-    return d.toGMTString()
-}
-const handleUserRouter = async (req, res) => {
+const handleUserRouter = async (req) => {
     const method = req.method
     if (method === 'GET') {
         // user登录
@@ -16,7 +10,8 @@ const handleUserRouter = async (req, res) => {
             const { username, password } = req.query;
             const result = await login(username, password)
             if (result.username) {
-                res.setHeader('Set-Cookie', `username=${result.username}; path=/; httpOnly; expires=${getCookieExpires()}`)
+                req.session.username = result.username
+                req.session.realname = result.realname
                 return new SuccessModel()
             } else {
                 return new ErrorModel('登录失败')
@@ -24,10 +19,8 @@ const handleUserRouter = async (req, res) => {
         }
     }
     if (req.path === '/api/user/testLogin') {
-        console.log(req.cookie)
-        console.log(req.cookie.username)
-        if (req.cookie.username) {
-            return Promise.resolve(new SuccessModel(req.cookie.username))
+        if (req.session.username) {
+            return Promise.resolve(new SuccessModel(req.session))
         } else return Promise.resolve(new ErrorModel('尚未登录'))
     }
 }
