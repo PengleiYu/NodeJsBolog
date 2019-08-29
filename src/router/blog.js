@@ -18,8 +18,17 @@ const handleBlogRouter = async (req, res) => {
     if (method === 'GET') {
         // blog列表
         if (req.path === '/api/blog/list') {
-            const author = req.query.author || ''
+            let author = req.query.author || ''
             const keyword = req.query.keyword || ''
+            // 用户自己的列表
+            if (req.query.isAdmin) {
+                const checkResult = await checkLogin(req)
+                if (checkResult) {
+                    return checkResult
+                }
+                author = req.session.username
+            }
+
             const listData = await getList(author, keyword)
             return new SuccessModel(listData)
         }
