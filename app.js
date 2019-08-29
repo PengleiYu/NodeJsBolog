@@ -72,6 +72,15 @@ const serverHandle = async (req, res) => {
     // 获取post体
     const postData = await getPostData(req)
     req.body = postData
+    // 处理user路由
+    const userData = await handleUserRouter(req, res)
+    if (userData) {
+        if (needSetCookie) {
+            res.setHeader('Set-Cookie', `userId=${req.sessionId}; path=/; httpOnly; expires=${getCookieExpires()}`)
+        }
+        res.end(JSON.stringify(userData))
+        return
+    }
     // 处理blog路由
     const blogData = await handleBlogRouter(req, res)
     if (blogData) {
@@ -82,15 +91,6 @@ const serverHandle = async (req, res) => {
         return
     }
 
-    // 处理user路由
-    const userData = await handleUserRouter(req, res)
-    if (userData) {
-        if (needSetCookie) {
-            res.setHeader('Set-Cookie', `userId=${req.sessionId}; path=/; httpOnly; expires=${getCookieExpires()}`)
-        }
-        res.end(JSON.stringify(userData))
-        return
-    }
     // 未命中路由，返回404
     res.writeHead(404, { 'Content-type': 'text/plain' })
     res.end('404 not found\n')

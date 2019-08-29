@@ -18,7 +18,6 @@ function get(key) {
                 reject(err)
                 return
             }
-            console.log('val ', val)
             if (val == null) resolve(null)
             try {
                 resolve(JSON.parse(val))
