@@ -2,6 +2,7 @@ const queryString = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 const { get, set } = require('./src/db/redis')
+const { access } = require('./src/utils/log')
 
 // 获取post参数
 const getPostData = (req) => {
@@ -37,6 +38,7 @@ const getCookieExpires = () => {
 }
 
 const serverHandle = async (req, res) => {
+    access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
     // 设置返回格式 JSON
     res.setHeader('Content-type', 'application/json')
     const url = req.url;
